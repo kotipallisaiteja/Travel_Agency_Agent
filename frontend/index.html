@@ -217,29 +217,29 @@
 
     <div class="sidebar">
 
-        <div class="logo">
-            📊 BusinessInsight AI
+        <div class="logo" style="display: flex; flex-direction: column; align-items: center; gap: 15px; text-align: center;">
+            <img src="../data/Vedaasthra.jpeg" alt="Company Logo" style="height: 80px; width: auto; border-radius: 4px;">
+            <span>BusinessInsight AI</span>
         </div>
 
         <button class="new-chat" onclick="newChat()">
             + New Chat
         </button>
 
-        <div class="history">
-            <div class="history-item">
-                Revenue Analysis
-            </div>
-
-            <div class="history-item">
-                Route Performance
-            </div>
-
-            <div class="history-item">
-                Profit Analysis
-            </div>
-        </div>
-
-    </div>
+        <div class="history-item"
+              onclick="quickQuestion('Give revenue analysis')">
+             📈 Revenue Analysis
+         </div>
+         
+         <div class="history-item"
+              onclick="quickQuestion('Analyze route performance')">
+             🚚 Route Performance
+         </div>
+         
+         <div class="history-item"
+              onclick="quickQuestion('Analyze profit performance')">
+             💰 Profit Analysis
+         </div>
 
     <div class="main">
 
@@ -406,7 +406,12 @@ async function sendMessage(){
 
     chat.scrollTop = chat.scrollHeight;
 }
+function quickQuestion(text){
 
+    document.getElementById("question").value = text;
+
+    sendMessage();
+}
 
 // ENTER KEY SUPPORT
 
