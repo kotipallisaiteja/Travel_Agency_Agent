@@ -37,6 +37,18 @@
             padding:20px;
             font-size:20px;
             font-weight:bold;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            text-align:center;
+            gap:10px;
+        }
+
+        .logo img{
+            max-height:80px;
+            width:auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
         }
 
         .new-chat{
@@ -93,6 +105,50 @@
         .message{
             display:flex;
             margin:20px 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: #a3a3a3;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
         }
 
         .user{
@@ -218,19 +274,34 @@
 <div class="container">
 
     <div class="sidebar">
-        <div class="logo">📊 BusinessInsight AI</div>
+        <div class="logo">
+            <img src="../data/vedaasthra.jpeg" alt="Vedaasthra Logo">
+            <span>BusinessInsight AI</span>
+        </div>
 
         <button class="new-chat" onclick="newChat()">
             + New Chat
         </button>
 
         <div class="history">
-            <div class="history-item">Revenue Analysis</div>
-            <div class="history-item">Route Performance</div>
-            <div class="history-item">Profit Analysis</div>
+
+            <div class="history-item"
+                 onclick="quickQuestion('Give revenue analysis')">
+                📈 Revenue Analysis
+            </div>
+    
+            <div class="history-item"
+                 onclick="quickQuestion('Analyze route performance')">
+                🚚 Route Performance
+            </div>
+    
+            <div class="history-item"
+                 onclick="quickQuestion('Analyze profit performance')">
+                💰 Profit Analysis
+            </div>
+    
         </div>
     </div>
-
     <div class="main">
 
         <div class="header">
@@ -242,7 +313,9 @@
                 <div class="bubble">
 <pre>Welcome to BusinessInsight AI.
 
-Ask me:
+I am your intelligent assistant here to analyze your travel agency's operational data, track route performance, and uncover actionable insights to boost your profitability.
+
+Here are a few things you can ask me:
 • Why is revenue decreasing?
 • Which routes are underperforming?
 • What are the major business risks?
@@ -274,7 +347,9 @@ function newChat(){
             <div class="bubble">
                 <pre>Welcome to BusinessInsight AI.
 
-Ask me:
+I am your intelligent assistant here to analyze your travel agency's operational data, track route performance, and uncover actionable insights to boost your profitability.
+
+Here are a few things you can ask me:
 • Why is revenue decreasing?
 • Which routes are underperforming?
 • What are the major business risks?
@@ -308,7 +383,11 @@ async function sendMessage(){
     chat.innerHTML += `
         <div class="message bot" id="${loadingId}">
             <div class="bubble">
-                ⏳ Analyzing business data...
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     `;
@@ -364,7 +443,12 @@ async function sendMessage(){
 
     chat.scrollTop = chat.scrollHeight;
 }
+function quickQuestion(text){
 
+    document.getElementById("question").value = text;
+
+    sendMessage();
+}
 document
     .getElementById("question")
     .addEventListener("keydown", function(event){
